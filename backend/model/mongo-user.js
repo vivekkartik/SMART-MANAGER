@@ -15,10 +15,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    list: {
+    list: [{
         type: mongoose.Types.ObjectId,
         ref: 'List'
-    }
+    }]
 })
 
 

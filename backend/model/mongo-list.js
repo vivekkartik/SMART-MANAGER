@@ -10,10 +10,10 @@ const listschema =  new mongoose.Schema(
             type: String,
             required: true
         },
-        user: {
+        user:[ {
             type : mongoose.Types.ObjectId,
             ref : 'User'
-        }
+        }]
     },{timestamps: true})
 
 
