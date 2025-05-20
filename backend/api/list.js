@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const List = require('../model/mongo-list')
 const User = require('../model/mongo-user')
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
 
 router.post('/addList', async (req, res) =>{
     try{
@@ -15,6 +17,8 @@ router.post('/addList', async (req, res) =>{
             isUser.list.push(list)
             isUser.save()
             res.status(200).json({list: list})
+        }else{
+            res.status(400).json("user not found")
         }
     }
     catch(error){
@@ -36,7 +40,7 @@ router.put("/updatelist/:id", async(req,res) =>{
             
         }
     } catch(error){
-        res.status(400).json({ERROR: error})
+        res.status(400).json("ERROR", error)
     }
 
 })
@@ -59,6 +63,22 @@ router.delete("/deletetask/:id", async (req, res)=>{
     }
 })
 
+router.get("/getTasksByUserId/:id", async (req,res)=>{
+    try{
+
+        const isUser = await User.findById(req.params.id)
+        if(isUser){
+            const lists = await List.find({user: new ObjectId(req.params.id)})
+            res.status(200).json(lists)
+        }else{
+            res.status(400).json("user not found")
+        }
+    }
+    catch(error){
+        res.status(400).json("error", error)
+    }
+
+})
 
 
 
