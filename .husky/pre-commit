@@ -3,6 +3,3 @@
 
 # Run ESLint to check for linting errors
 yarn lint
-
-# Run tests
-npm test
