@@ -1,2 +1,41 @@
+# Environment variables
 .env
-node_modules
+
+# Node.js dependencies
+node_modules/
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build artifacts
+dist/
+build/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Editor and system-specific files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ESLint cache
+.eslintcache
+
+# Coverage reports (if using testing tools like Jest)
+coverage/
+
+# Debugging files
+*.pid
+*.seed
+*.pid.lock
+
+# Optional npm/yarn files
+package-lock.json
+yarn.lock
