@@ -68,7 +68,8 @@ router.get("/getTasksByUserId/:id", async (req,res)=>{
 
         const isUser = await User.findById(req.params.id)
         if(isUser){
-            const lists = await List.find({user: new ObjectId(req.params.id)})
+            const lists = await List.find({user: new ObjectId(req.params.id)}).sort({createdAt: -1})
+            if(lists.length === 0){res.status(200).json("list are empty")}
             res.status(200).json(lists)
         }else{
             res.status(400).json("user not found")
