@@ -12,7 +12,7 @@ const Home = () => {
          <p> Add tasks, set reminders, and track your progress effortlessly. Your tasks, all in one place.</p>
        </div>
        <div className='home-todo-image'> <img className="image-fluid "src ="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx79J9D-zp_4o7hXsa2YJkZCqxsNBSL3PKAg&s"></img></div>
-       <button className='btn-makeTodolist'>MakeTodoList</button>
+       <button className='btn-makeTodolist'>Manage Your task list</button>
             </div> 
   )
 }

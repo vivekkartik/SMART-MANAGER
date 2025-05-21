@@ -9,7 +9,7 @@
     background-color: crimson;
     border-radius: 5px;
     font-weight: bold;
-    width: 10rem;
+    width: 13rem;
 }
 
 .btn-makeTodolist:hover{
@@ -17,5 +17,5 @@
     color: black;
     border-style: dashed;
     font-weight: bold;
-    width: 10rem;
+
 }
