@@ -1,0 +1,26 @@
+.user-png{
+    width: 2rem;
+    height: 2rem;
+}
+
+.navbar-brand{
+    color: crimson;
+    
+}
+.navbar-brand:hover{
+    color: black;
+}
+
+.btn-nav{
+    color: rgb(87, 5, 5) !important;
+    background-color:crimson;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.btn-nav:hover{
+    background-color: greenyellow;
+    color: black;
+    
+    border-style: dashed;
+}
