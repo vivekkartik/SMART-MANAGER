@@ -9,14 +9,17 @@
 .about-image {
     width: 8rem;
     height: 8rem;
+    border: 2px solid #ccc; /* Simple border */
+    border-radius: 10%; /* Slightly rounded corners */
+    object-fit:cover; /* Ensure the image fits well */
 }
 
 .about-us-para{
     flex-direction: column;
-    font-size: large;
-    
-    font-family:cursive;
-    color: rgb(0, 0, 0);
+    font-size: 1.2rem; /* Adjust size for better readability */
+    font-family: 'Poppins', Arial, sans-serif; /* Stylish and trendy font */
+    line-height: 1.8; /* Add spacing between lines */
+    color: #000000; /* Softer black for a modern look */
     font-weight: bold
 }
 
