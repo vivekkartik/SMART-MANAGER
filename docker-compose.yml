@@ -2,16 +2,22 @@ version: '3.9'
 
 services:
   smart-manager-api:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: dockerfile
     ports:
       - "1000:1000"
     volumes:
       - ./backend:/app
+      - /app/node_modules
     environment:
       - NODE_ENV=development
+    command: npm run start-dev # Use nodemon for development
 
   smart-manager-ui:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: dockerfile
     ports:
       - "3000:3000"
     volumes:
@@ -19,5 +25,6 @@ services:
       - /app/node_modules
     environment:
       - CHOKIDAR_USEPOLLING=true
+    command: npm start # Use React's development server
     depends_on:
       - smart-manager-api

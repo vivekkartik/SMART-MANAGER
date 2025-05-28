@@ -4,7 +4,8 @@
   "description": "clone repo",
   "main": "index.js",
   "scripts": {
-    "lint": "cd backend && yarn lint"
+    "lint": "cd backend && yarn lint",
+    "start" : "docker compose up -d"
   },
   "keywords": [],
   "author": "",
