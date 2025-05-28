@@ -20,10 +20,10 @@ const Navbar = () => {
           <Link className="nav-link active" aria-current="page" to="/About">About Us</Link>
         </li>
                 <li className="nav-item mx-2 my-1 btn-nav">
-          <a className="nav-link active" aria-current="page" href="#">SignUp</a>
+          <Link className="nav-link active" aria-current="page" to='/SignUp'>SignUp</Link>
         </li>
                 <li className="nav-item mx-2 my-1 btn-nav">
-          <a className="nav-link active" aria-current="page" href="#">SignIn</a>
+          <Link className="nav-link active" aria-current="page" to='SignIn'>SignIn</Link>
         </li>
                 <li className="nav-item mx-2 my-1 btn-nav">
           <a className="nav-link active" aria-current="page" href="#">SignOut</a>
