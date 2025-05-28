@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  smart-manager-api:
+    build: ./backend
+    ports:
+      - "1000:1000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - NODE_ENV=development
+
+  smart-manager-ui:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - smart-manager-api
