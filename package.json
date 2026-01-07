@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "cd backend && yarn lint",
-    "start" : "docker compose up -d"
+    "start": "docker compose up -d"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +14,7 @@
     "husky": "^8.0.0"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "yarn": "^1.22.22"
   }
 }

@@ -1,8 +1,14 @@
-
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const routes = require("./routes/routes");
 require("./mongo/connection");
+
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 app.get("/", (req,res)=>{
   res.send("hello vivek");
