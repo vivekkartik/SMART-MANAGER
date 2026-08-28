@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const User = require("../model/mongo-user");
 const bcrypt =  require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const { authMiddleware } = require("./helpers");
 
 router.post("/register", async (req,res)=>{
   try {
@@ -10,7 +12,10 @@ router.post("/register", async (req,res)=>{
     console.log(`user: JSON.stringfy( ${email}, ${username}, ${hashPassword})`);
     const user = new User({email, username, password:hashPassword});
     await user.save();
-    res.status(200).json({user: user});
+    const token = jwt.sign({userId: user._id, emailId: user.email}, process.env.JWT_SECRET,    {
+      expiresIn: "1h"
+    });
+    res.status(200).json({user: user, token: token});
             
   } catch (error) {
     res.status(400).json({message: "user already existes ", error});
@@ -26,7 +31,11 @@ router.post("/login", async (req,res)=>{
     if(!IsPassword) return res.status(400).json({message: "password is incorrect"});
 
     const { password, ...userData} = user._doc;
-    res.status(200).json({user: userData});
+    const token = jwt.sign({userId: user._id, emailId: user.email}, process.env.JWT_SECRET,    {
+      expiresIn: "1h"
+    });
+    console.log("jwt token", token);
+    res.status(200).json({user: userData, token: token});
   } catch (error) {
     res.status(400).json({message: "user not found", error});
   }
