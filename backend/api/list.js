@@ -3,8 +3,9 @@ const List = require("../model/mongo-list");
 const User = require("../model/mongo-user");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
+const { authMiddleware } = require("./helpers");
 
-router.post("/addList", async (req, res) =>{
+router.post("/addList", authMiddleware, async (req, res) =>{
   try{
     const {title, body, email } = req.body;
     const isUser = await User.findOne({email});
@@ -26,7 +27,7 @@ router.post("/addList", async (req, res) =>{
   }
 });
 
-router.put("/updatelist/:id", async (req,res) =>{
+router.put("/updatelist/:id", authMiddleware, async (req,res) =>{
   try{
       
     const { title, body, email} = req.body;
@@ -44,7 +45,7 @@ router.put("/updatelist/:id", async (req,res) =>{
 
 });
 
-router.delete("/deletetask/:id", async (req, res)=>{
+router.delete("/deletetask/:id", authMiddleware, async (req, res)=>{
   try{
     const {email} = req.body;
     const isUser = await User.findOneAndUpdate({ email},{$pull:{list: req.params.id}});
@@ -62,7 +63,7 @@ router.delete("/deletetask/:id", async (req, res)=>{
   }
 });
 
-router.get("/getTasksByUserId/:id", async (req,res)=>{
+router.get("/getTasksByUserId/:id", authMiddleware, async (req,res)=>{
   try{
 
     const isUser = await User.findById(req.params.id);

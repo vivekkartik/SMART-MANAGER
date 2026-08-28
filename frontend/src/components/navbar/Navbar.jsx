@@ -3,6 +3,13 @@ import { SiTodoist } from "react-icons/si";
 import './Navbar.css'
 import { Link } from 'react-router-dom';
 const Navbar = () => {
+  const token = localStorage.getItem("token");
+  const handleSignOut = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/SignIn"; // Redirect to SignIn page after sign out
+  };
+  const showSignOut = token ? true : false; // Show SignOut button only if token exists
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg ">
@@ -22,16 +29,21 @@ const Navbar = () => {
         <li className="nav-item mx-2">
           <Link className="nav-link active" aria-current="page" to="/About">Task</Link>
         </li>
-                <li className="nav-item mx-2 my-1 btn-nav">
-          <Link className="nav-link active" aria-current="page" to='/SignUp'>SignUp</Link>
-        </li>
-                <li className="nav-item mx-2 my-1 btn-nav">
-          <Link className="nav-link active" aria-current="page" to='SignIn'>SignIn</Link>
-        </li>
-                <li className="nav-item mx-2 my-1 btn-nav">
-          <a className="nav-link active" aria-current="page" href="#">SignOut</a>
-        </li>
-        
+        {!showSignOut && (
+          <li className="nav-item mx-2 my-1 btn-nav">
+            <Link className="nav-link active" aria-current="page" to='/SignUp'>SignUp</Link>
+          </li>
+        )}
+        {!showSignOut && (
+          <li className="nav-item mx-2 my-1 btn-nav">
+            <Link className="nav-link active" aria-current="page" to='/SignIn'>SignIn</Link>
+          </li>
+        )}
+        {showSignOut && (
+          <li className="nav-item mx-2 my-1 btn-nav">
+            <a className="nav-link active" aria-current="page" href="#" onClick={handleSignOut}>SignOut</a>
+          </li>
+        )}
         <li className="nav-item mx-2">
           <a className="nav-link active" aria-current="page" href="#"><img className='img-fluid user-png' src="https://cdn-icons-png.flaticon.com/512/149/149071.png"></img></a>
         </li>
