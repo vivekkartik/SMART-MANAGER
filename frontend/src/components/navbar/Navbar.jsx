@@ -1,14 +1,45 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { SiTodoist } from "react-icons/si";
 import './Navbar.css'
 import { Link } from 'react-router-dom';
+
 const Navbar = () => {
-  const token = localStorage.getItem("token");
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [showSignOut, setShowSignOut] = useState(!!token);
+
+  useEffect(() => {
+    // Listen for changes in localStorage
+    const handleStorageChange = () => {
+      const currentToken = localStorage.getItem("token");
+      setToken(currentToken);
+      setShowSignOut(!!currentToken);
+      console.log("Token updated in Navbar:", currentToken);
+    };
+
+    // Listen for storage changes from other tabs/windows
+    window.addEventListener('storage', handleStorageChange);
+
+    // Also check for changes on the same tab
+    const checkTokenInterval = setInterval(() => {
+      const currentToken = localStorage.getItem("token");
+      if (currentToken !== token) {
+        setToken(currentToken);
+        setShowSignOut(!!currentToken);
+      }
+    }, 500);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      clearInterval(checkTokenInterval);
+    };
+  }, [token]);
+
   const handleSignOut = () => {
     localStorage.removeItem("token");
+    setToken(null);
+    setShowSignOut(false);
     window.location.href = "/SignIn"; // Redirect to SignIn page after sign out
   };
-  const showSignOut = token ? true : false; // Show SignOut button only if token exists
 
   return (
     <div>
