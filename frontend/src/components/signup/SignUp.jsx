@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import './SignUp.css'
 import HeaderComp from './HeaderComp'
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
+  const navigate = useNavigate();
+  localStorage.getItem('token') && navigate('/'); 
   const [form, setForm] = useState({ email: '', username: '', password: '' });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -23,7 +26,9 @@ const SignUp = () => {
       });
       const data = await res.json();
       if (res.ok) {
+        localStorage.setItem('token', data.token);
         setSuccess('Registration successful!');
+        navigate('/'); 
       } else {
         setError(data.message || 'Registration failed');
       }

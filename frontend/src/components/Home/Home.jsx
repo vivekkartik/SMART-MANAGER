@@ -1,9 +1,51 @@
-import React from 'react'
-import { SiTodoist } from "react-icons/si";
 import "./Home.css"
+import { jwtDecode } from 'jwt-decode';
+import { config } from '../../config.js';
+import { useEffect, useState } from 'react';
+
 const Home = () => {
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setError("No token found");
+          setLoading(false);
+          return;
+        }
+        
+        const decodedToken = jwtDecode(token);
+        console.log("Decoded Token:", decodedToken);
+
+        const user = await fetch(`${config.API_URL}/api/v1/getUser`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        const data = await user.json();
+        console.log("User Data:", data);
+        setUserData(data);
+      } catch (err) {
+        setError(err.message);
+        console.error("Error fetching user data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
   return (
     <div className='home d-flex justify-content-center align-items-center flex-column'>
+        {loading && <p>Loading...</p>}
+        {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+        {userData && <p>Welcome, {userData.user.username}!</p>}
         <div className='container'> 
          <h1>
              Stay organized,<br/>

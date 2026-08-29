@@ -7,24 +7,33 @@ import { BrowserRouter as Router, Routes, Route , Navigate} from 'react-router-d
 import SignUp from './components/signup/SignUp';
 import SignIn from './components/SignIn/SignIn';
 
-const App = () => {
+const doesTokenExpired = (token) => {
+  if (!token) return true; // If there's no token, consider it expired
+  const payload = JSON.parse(atob(token.split('.')[1])); // Decode the JWT payload
+  const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+  return payload.exp < currentTime; // Check if the token has expired
+};
 
-  const protectedRoute = (Component) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      // Redirect to login page if token is not present
-      return <Navigate to="/SignIn" replace />;
-      return null;
-    }
-    return <Component />;
+const ProtectedRoute = ({ Component }) => {
+  const token = localStorage.getItem("token");
+  
+  if (!token || doesTokenExpired(token)) {
+    localStorage.removeItem("token"); // Remove expired token from localStorage
+    // Redirect to login page if token is not present or has expired
+    return <Navigate to="/SignIn" replace />;
   }
+  
+  return <Component />;
+};
+
+const App = () => {
   return (
     <Router> {/* Wrap the entire app with BrowserRouter */}
       <div>
         <Navbar />
         <Routes>
-          <Route exact path='/' element={protectedRoute(Home)} />
-          <Route exact path='/About' element={protectedRoute(About)} />
+          <Route exact path='/' element={<ProtectedRoute Component={Home} />} />
+          <Route exact path='/About' element={<ProtectedRoute Component={About} />} />
           <Route exact path='/SignUp' element={<SignUp />} />
           <Route exact path='/SignIn' element={<SignIn />} />
           <Route path="*" element={<Navigate to="/" replace />}/>
