@@ -3,6 +3,7 @@ import HeaderComp from '../signup/HeaderComp'
 import '../signup/SignUp.css'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { config } from '../../config.js';
 
 const SignIn = () => {
   const token = localStorage.getItem("token");
@@ -11,14 +12,16 @@ const SignIn = () => {
   }
   const [emailOrUsername, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission logic here
     console.log('Email or Username:', emailOrUsername);
     console.log('Password:', password);
+    setError(''); // Clear previous errors
     try {
-const response = await fetch("http://localhost:1000/api/v1/login", { method: "POST", headers: { "Content-Type": "application/json", }, body: JSON.stringify({ emailOrUsername, password, }) }); 
+const response = await fetch(`${config.API_URL}/api/v1/login`, { method: "POST", headers: { "Content-Type": "application/json", }, body: JSON.stringify({ emailOrUsername, password, }) }); 
   const data = await response.json();
   console.log("Response data:", data);
   if (response.ok) {
@@ -26,16 +29,19 @@ const response = await fetch("http://localhost:1000/api/v1/login", { method: "PO
     localStorage.setItem("token", data.token);
     navigate("/"); // Redirect to home page after successful login
   } else {
+    setError(data.message);
     // Handle login error
     console.error("Login failed:", data.message);
   }
     } catch (error) {
+      setError('Error during sign-in. Please try again.');
       console.error('Error during sign-in:', error);
     }
   }
 
   return (
     <div>
+              {error && <div style={{ color: 'red', padding: '10px', marginBottom: '15px', textAlign: 'center', backgroundColor: '#ffebee', borderRadius: '4px' }}>{error}</div>}
               <div className='container'>
             <div className='row'> 
                 <HeaderComp first= 'Sign' second='In' border='right'/>
